@@ -1,0 +1,1 @@
+# PyTesseract Demo
