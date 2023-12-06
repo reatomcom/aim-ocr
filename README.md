@@ -11,4 +11,4 @@ Ubuntu: `sudo apt install tesseract-ocr tesseract-ocr-lav`
 ## Usage
 
 1. `python main.py`
-2. results in the folder specified by `OUTPUT_DIR` in `.env`
+2. see results in the folder specified by `OUTPUT_DIR` in `.env`
