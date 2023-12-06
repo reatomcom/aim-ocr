@@ -1,10 +1,17 @@
 import os
-import main
+from pathlib import Path
+
 from dotenv import load_dotenv
+
+import main
 
 load_dotenv()
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(main.__file__))
-DATASET_PATH = (lambda x: x if os.path.isabs(x) else os.path.join(PROJECT_ROOT, x))(
-    os.environ["DATASET_PATH"]
-)
+PROJECT_ROOT = Path(main.__file__).absolute().parent
+
+
+def rel2abs(path):
+    return path if path.is_absolute() else PROJECT_ROOT.joinpath(path)
+
+
+DATASET_PATH = rel2abs(Path(os.environ["DATASET_PATH"]))
