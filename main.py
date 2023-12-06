@@ -26,9 +26,9 @@ def process_dataset(ocr_function):
 
             file_name = image_path.name
             title = "{0}\n{1}\n{0}".format("-" * len(str(file_name)), file_name)
-            f.write(f"{title}\n{ocr_function(str(image_path))}\n\n")
+            f.write(f"{title}\n{ocr_function(str(image_path))}\n")
 
-        f.truncate(f.tell() - 2)
+        f.truncate(f.tell() - 1)
 
 
 def main():
