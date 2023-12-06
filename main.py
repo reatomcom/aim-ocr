@@ -1,10 +1,18 @@
+import easyocr
+import pytesseract
+
 import config
 
 
 def run_pytesseract(image_path):
-    import pytesseract
+    return pytesseract.image_to_string(image_path)
 
-    return pytesseract.image_to_string(str(image_path))
+
+reader = easyocr.Reader(["en"], verbose=False)
+
+
+def run_easyocr(image_path):
+    return "\n".join(reader.readtext(image_path, detail=0))
 
 
 def process_dataset(ocr_function):
@@ -18,13 +26,14 @@ def process_dataset(ocr_function):
 
             file_name = image_path.name
             title = "{0}\n{1}\n{0}".format("-" * len(str(file_name)), file_name)
-            f.write(f"{title}\n{ocr_function(image_path)}\n\n")
+            f.write(f"{title}\n{ocr_function(str(image_path))}\n\n")
 
         f.truncate(f.tell() - 2)
 
 
 def main():
     process_dataset(run_pytesseract)
+    process_dataset(run_easyocr)
 
 
 if __name__ == "__main__":
