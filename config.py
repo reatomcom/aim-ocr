@@ -11,7 +11,9 @@ PROJECT_ROOT = Path(main.__file__).absolute().parent
 
 
 def rel2abs(path):
+    path = Path(path)
     return path if path.is_absolute() else PROJECT_ROOT.joinpath(path)
 
 
-DATASET_PATH = rel2abs(Path(os.environ["DATASET_PATH"]))
+DATASET_DIR = rel2abs(os.environ["DATASET_DIR"])
+OUTPUT_DIR = rel2abs(os.environ["OUTPUT_DIR"])
