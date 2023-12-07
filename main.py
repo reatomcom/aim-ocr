@@ -1,20 +1,7 @@
 import json
 
-import easyocr
-import pytesseract
-
 import config
-
-
-def run_pytesseract(image_path):
-    return pytesseract.image_to_string(image_path, lang="eng+lav")
-
-
-reader = easyocr.Reader(["en", "lv"], gpu=False, verbose=False)
-
-
-def run_easyocr(image_path):
-    return "\n".join(reader.readtext(image_path, detail=0))
+import engines
 
 
 def process_dataset(ocr_function):
@@ -33,8 +20,8 @@ def process_dataset(ocr_function):
 
 
 def main():
-    process_dataset(run_pytesseract)
-    process_dataset(run_easyocr)
+    process_dataset(engines.run_pytesseract)
+    process_dataset(engines.run_easyocr)
 
 
 if __name__ == "__main__":
