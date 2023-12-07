@@ -1,3 +1,5 @@
+import json
+
 import easyocr
 import pytesseract
 
@@ -17,18 +19,17 @@ def run_easyocr(image_path):
 
 def process_dataset(ocr_function):
     config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    output_file = config.OUTPUT_DIR.joinpath(ocr_function.__name__).with_suffix(".txt")
+    output_path = config.OUTPUT_DIR.joinpath(ocr_function.__name__).with_suffix(".json")
 
-    with output_file.open("w", encoding="utf-8") as f:
-        for image_path in config.DATASET_DIR.iterdir():
-            if not image_path.is_file():
-                continue
+    output = {}
+    for image_path in config.DATASET_DIR.iterdir():
+        if not image_path.is_file():
+            continue
 
-            file_name = image_path.name
-            title = "{0}\n{1}\n{0}".format("-" * len(str(file_name)), file_name)
-            f.write(f"{title}\n{ocr_function(str(image_path))}\n")
+        output[image_path.name] = ocr_function(str(image_path))
 
-        f.truncate(f.tell() - 1)
+    with output_path.open("w", encoding="utf-8") as output_file:
+        json.dump(output, output_file, ensure_ascii=False, indent=4, sort_keys=True)
 
 
 def main():
