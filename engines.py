@@ -1,5 +1,6 @@
 import easyocr
 import pytesseract
+
 from rapidfuzz import fuzz
 
 
