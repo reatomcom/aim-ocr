@@ -3,11 +3,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-import main
-
 load_dotenv()
 
-PROJECT_ROOT = Path(main.__file__).absolute().parent
+PROJECT_ROOT = Path(__file__).absolute().parent
 
 
 def rel2abs(path):
