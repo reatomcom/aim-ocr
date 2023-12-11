@@ -17,3 +17,4 @@ def rel2abs(path):
 
 DATASET_DIR = rel2abs(os.environ["DATASET_DIR"])
 OUTPUT_DIR = rel2abs(os.environ["OUTPUT_DIR"])
+TEST_DIR = rel2abs(os.environ["TEST_DIR"])

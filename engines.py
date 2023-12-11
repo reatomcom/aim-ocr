@@ -13,3 +13,5 @@ reader = easyocr.Reader(["en", "lv"], gpu=False, verbose=False)
 
 def run_easyocr(image_path):
     return "\n".join(reader.readtext(image_path, detail=0))
+
+
