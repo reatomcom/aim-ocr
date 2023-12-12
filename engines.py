@@ -1,8 +1,10 @@
 import easyocr
 import pytesseract
 
+OCRReturnType = list[tuple[str, list[tuple[int, int]], float]]
 
-def run_pytesseract(image_path):
+
+def run_pytesseract(image_path: str) -> OCRReturnType:
     output = pytesseract.image_to_data(
         image_path, lang="eng+lav", output_type=pytesseract.Output.DICT
     )
@@ -33,7 +35,7 @@ def run_pytesseract(image_path):
 reader = easyocr.Reader(["en", "lv"], gpu=False, verbose=False)
 
 
-def run_easyocr(image_path):
+def run_easyocr(image_path: str) -> OCRReturnType:
     return [
         (text, [(int(x), int(y)) for x, y in bbox], confidence)
         for bbox, text, confidence in reader.readtext(image_path)

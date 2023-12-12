@@ -1,10 +1,11 @@
 import json
+from collections.abc import Callable
 
 import config
 import engines
 
 
-def process_dataset(ocr_function):
+def process_dataset(ocr_function: Callable[[str], engines.OCRReturnType]):
     config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_path = config.OUTPUT_DIR.joinpath(ocr_function.__name__).with_suffix(".json")
 
