@@ -26,7 +26,7 @@ def process_ratio(ocr_function):
     with open(original_path, 'r', encoding="utf-8") as original_file:
         original_texts = json.load(original_file)
 
-    output_path = config.OUTPUT_DIR.joinpath(ocr_function.__name__ + "_loss").with_suffix(".json")
+    output_path = config.OUTPUT_DIR.joinpath(ocr_function.__name__ + "_accuracy").with_suffix(".json")
     output = {}
     for image_path in config.TEST_DIR.iterdir():
         if not image_path.is_file():
