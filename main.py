@@ -22,6 +22,7 @@ def process_dataset(ocr_function):
 
 
 def process_ratio(ocr_function):
+    config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     original_path = config.OUTPUT_DIR.joinpath("original").with_suffix(".json")
     with open(original_path, 'r', encoding="utf-8") as original_file:
         original_texts = json.load(original_file)
@@ -32,7 +33,11 @@ def process_ratio(ocr_function):
         if not image_path.is_file():
             continue
 
-        recognition = ocr_function(str(image_path)).replace("\n", " ")
+        recognition = ocr_function(str(image_path))
+        if isinstance(recognition, list):
+            recognition = " ".join([item['text'] for item in recognition])
+        else:
+            recognition = recognition.replace("\n", " ")
         ratio = fuzz.partial_token_sort_ratio(recognition, original_texts[image_path.name])
         output[image_path.name] = [recognition, ratio]
     
@@ -41,8 +46,7 @@ def process_ratio(ocr_function):
     
 
 def main():
-    process_ratio(engines.run_pytesseract)
-    process_ratio(engines.run_easyocr)
+    process_ratio(engines.run_doctr)
 
 
 if __name__ == "__main__":
