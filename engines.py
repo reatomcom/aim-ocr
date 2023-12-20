@@ -18,6 +18,9 @@ class ScanData:
     bbox: BBox = None
     conf: float = 1
 
+    def __post_init__(self):
+        self.conf = round(self.conf, 5)
+
 
 def run_pytesseract(image_path: str) -> list[ScanData]:
     output = pytesseract.image_to_data(
