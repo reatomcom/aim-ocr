@@ -47,8 +47,8 @@ def run_easyocr(image_path: str) -> list[ScanData]:
         if not text.strip():
             continue
 
-        tl, br = zip(*[(min(cmp), max(cmp)) for cmp in zip(*bbox)])
+        tl, br = zip(*[map(round, (min(cmp), max(cmp))) for cmp in zip(*bbox)])
         dims = [cmp_max - cmp_min for cmp_min, cmp_max in zip(tl, br)]
-        output.append(ScanData(text, BBox(*tl, *dims), confidence))
+        output.append(ScanData(text, BBox(*tl, *dims), float(confidence)))
 
     return output
