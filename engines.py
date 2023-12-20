@@ -44,7 +44,7 @@ reader = easyocr.Reader(["en", "lv"], gpu=False, verbose=False)
 def run_easyocr(image_path: str) -> list[ScanData]:
     output = []
     for bbox, text, confidence in reader.readtext(image_path):
-        if text.strip():
+        if not text.strip():
             continue
 
         tl, br = zip(*[(min(cmp), max(cmp)) for cmp in zip(*bbox)])
