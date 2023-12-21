@@ -24,8 +24,8 @@ def run_pytesseract(image_path: str) -> list[ScanData]:
     )
 
     return [
-        ScanData(text, left, top, width, height, confidence)
-        for text, left, top, width, height, confidence in zip(
+        ScanData(*data)
+        for data in zip(
             output["text"],
             output["left"],
             output["top"],
