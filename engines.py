@@ -5,17 +5,12 @@ import pytesseract
 
 
 @dataclass
-class BBox:
+class ScanData:
+    text: str
     left: int
     top: int
     width: int
     height: int
-
-
-@dataclass
-class ScanData:
-    text: str
-    bbox: BBox = None
     conf: float = 1
 
     def __post_init__(self):
@@ -28,7 +23,7 @@ def run_pytesseract(image_path: str) -> list[ScanData]:
     )
 
     return [
-        ScanData(text, BBox(left, top, width, height), confidence / 100)
+        ScanData(text, left, top, width, height, confidence / 100)
         for text, left, top, width, height, confidence in zip(
             output["text"],
             output["left"],
@@ -52,6 +47,6 @@ def run_easyocr(image_path: str) -> list[ScanData]:
 
         tl, br = zip(*[map(round, (min(cmp), max(cmp))) for cmp in zip(*bbox)])
         dims = [cmp_max - cmp_min for cmp_min, cmp_max in zip(tl, br)]
-        output.append(ScanData(text, BBox(*tl, *dims), float(confidence)))
+        output.append(ScanData(text, *tl, *dims, float(confidence)))
 
     return output
