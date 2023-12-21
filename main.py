@@ -29,7 +29,7 @@ def process_ratio(ocr_function):
 
     output_path = config.OUTPUT_DIR.joinpath(ocr_function.__name__ + "_accuracy").with_suffix(".json")
     output = {}
-    for image_path in config.TEST_DIR.iterdir():
+    for image_path in config.OUTPUT_DIR.iterdir():
         if not image_path.is_file():
             continue
 
