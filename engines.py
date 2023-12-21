@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from pathlib import Path
 
 import easyocr
 import pytesseract
@@ -61,19 +60,15 @@ def run_easyocr(image_path: str) -> list[ScanData]:
 
 
 def run_doctr(image_path):
-    image_path = Path(image_path)
     model = ocr_predictor(det_arch = 'db_resnet50', reco_arch = 'crnn_vgg16_bn', pretrained = True, detect_language = True)
-
-    output = {}
-
-    output[image_path.name] = []
+    output = []
     page = model(DocumentFile.from_images(image_path)).export()['pages'][0]
     pw, ph = reversed(page['dimensions'])
     for block in page['blocks']:
         for line in block['lines']:
             for word in line['words']:
                 bbox = (ag := [[round(y*ph), round(x*pw)] for x, y in word['geometry']])[0] + [(y - x) for x, y in zip(*ag)]
-                output[image_path.name].append({
+                output.append({
                     'text': word['value'],
                     'top': bbox[0],
                     'left': bbox[1],
@@ -81,4 +76,5 @@ def run_doctr(image_path):
                     'height': bbox[3],
                     'conf': round(word['confidence']*100, 3)
                 })
-    return output[image_path.name]
+
+    return output
