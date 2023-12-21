@@ -30,10 +30,8 @@ def process_dataset(*ocr_funcs: Callable[[str], list[engines.ScanData]]):
 def main():
     output = process_dataset(engines.run_pytesseract, engines.run_easyocr)
 
-    config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    output_path = config.OUTPUT_DIR.joinpath("output").with_suffix(".json")
-
-    with output_path.open("w", encoding="utf-8") as output_file:
+    config.OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with config.OUTPUT_FILE.open("w", encoding="utf-8") as output_file:
         json.dump(output, output_file, ensure_ascii=False, cls=DataClassEncoder)
 
 
