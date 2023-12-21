@@ -10,7 +10,6 @@ easyocr = "*"
 rapidfuzz = "*"
 python-doctr = "*"
 pillow = "*"
-rapidfuzz = "*"
 
 [dev-packages]
 

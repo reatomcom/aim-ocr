@@ -53,13 +53,13 @@ def process_ratio(ocr_function):
     
 
 def main():
-    output = process_dataset(engines.run_pytesseract, engines.run_easyocr)
+    output = process_dataset(engines.run_pytesseract, engines.run_easyocr, engines.run_doctr)
 
     config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_path = config.OUTPUT_DIR.joinpath("output").with_suffix(".json")
 
     with output_path.open("w", encoding="utf-8") as output_file:
-        json.dump(output, output_file, ensure_ascii=False, cls=DataClassEncoder)
+        json.dump(output, output_file, ensure_ascii=False, cls=DataClassEncoder, indent=4)
 
 
 if __name__ == "__main__":
