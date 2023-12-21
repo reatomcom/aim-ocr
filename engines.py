@@ -1,5 +1,8 @@
 from dataclasses import dataclass
+<<<<<<< HEAD
 from pathlib import Path
+=======
+>>>>>>> main
 
 import easyocr
 import pytesseract
@@ -58,6 +61,7 @@ def run_easyocr(image_path: str) -> list[ScanData]:
         output.append(ScanData(text, BBox(*tl, *dims), float(confidence)))
 
     return output
+<<<<<<< HEAD
 
 
 def run_doctr(image_path):
@@ -82,3 +86,5 @@ def run_doctr(image_path):
                     'conf': round(word['confidence']*100, 3)
                 })
     return output[image_path.name]
+=======
+>>>>>>> main

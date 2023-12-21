@@ -7,7 +7,6 @@ import engines
 
 from rapidfuzz import fuzz
 
-
 class DataClassEncoder(json.JSONEncoder):
     def default(self, o):
         if dataclasses.is_dataclass(o):
