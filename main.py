@@ -46,7 +46,7 @@ def process_ratio(ocr_function):
     
 
 def main():
-    process_ratio(engines.run_doctr)
+    pass
 
 
 if __name__ == "__main__":
