@@ -23,9 +23,11 @@ def process_dataset(*ocr_types: type[engines.OCREngine]):
         ocr_name = ocr_type.__name__.lower()
 
         for image_path in image_paths:
-            output[image_path.name][ocr_name] = [
-                sd for sd in ocr_instance.run(str(image_path)) if sd.text
-            ]
+            output[image_path.name][ocr_name] = {
+                "accuracy": None,
+                "runtime": None,
+                "bboxes": [sd for sd in ocr_instance.run(str(image_path)) if sd.text],
+            }
 
     return output
 
