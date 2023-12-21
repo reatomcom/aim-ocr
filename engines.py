@@ -14,6 +14,7 @@ class ScanData:
     conf: float
 
     def __post_init__(self):
+        self.text = self.text.strip()
         self.conf = round(self.conf, 3)
 
 
@@ -32,7 +33,6 @@ def run_pytesseract(image_path: str) -> list[ScanData]:
             output["height"],
             output["conf"],
         )
-        if text.strip()
     ]
 
 
@@ -42,9 +42,6 @@ reader = easyocr.Reader(["en", "lv"], gpu=False, verbose=False)
 def run_easyocr(image_path: str) -> list[ScanData]:
     output = []
     for bbox, text, confidence in reader.readtext(image_path):
-        if not text.strip():
-            continue
-
         tl, br = zip(*[map(round, (min(cmp), max(cmp))) for cmp in zip(*bbox)])
         dims = [cmp_max - cmp_min for cmp_min, cmp_max in zip(tl, br)]
         output.append(ScanData(text, *tl, *dims, float(confidence) * 100))

@@ -21,7 +21,8 @@ def process_dataset(*ocr_funcs: Callable[[str], list[engines.ScanData]]):
             continue
 
         output[image_path.name] = {
-            ocr_func.__name__: ocr_func(str(image_path)) for ocr_func in ocr_funcs
+            ocr_func.__name__: [sd for sd in ocr_func(str(image_path)) if sd.text]
+            for ocr_func in ocr_funcs
         }
 
     return output
