@@ -13,6 +13,5 @@ def rel2abs(path):
     return path if path.is_absolute() else PROJECT_ROOT.joinpath(path)
 
 
-DATASET_DIR = rel2abs(os.environ["DATASET_DIR"])
-OUTPUT_DIR = rel2abs(os.environ["OUTPUT_DIR"])
-OUTPUT_FILE = rel2abs(os.environ["OUTPUT_FILE"])
+for path_env_var in ("DATASET_DIR", "OUTPUT_DIR", "OUTPUT_FILE"):
+    globals()[path_env_var] = rel2abs(os.environ[path_env_var])
