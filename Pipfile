@@ -7,9 +7,9 @@ name = "pypi"
 python-dotenv = "*"
 pytesseract = "*"
 easyocr = "*"
-rapidfuzz = "*"
+transformers = "*"
 python-doctr = "*"
-pillow = "*"
+rapidfuzz = "*"
 
 [dev-packages]
 
