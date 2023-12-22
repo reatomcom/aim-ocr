@@ -1,6 +1,5 @@
 import json
 import dataclasses
-from collections.abc import Callable
 
 import config
 import engines
