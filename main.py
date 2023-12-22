@@ -33,7 +33,7 @@ def process_dataset(*ocr_types: type[engines.OCREngine]):
 
 
 def main():
-    output = process_dataset(engines.PyTesseract, engines.EasyOCR)
+    output = process_dataset(engines.PyTesseract, engines.EasyOCR, engines.DocTR)
 
     config.OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with config.OUTPUT_FILE.open("w", encoding="utf-8") as output_file:
