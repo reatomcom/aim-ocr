@@ -1,6 +1,8 @@
 import json
 import dataclasses
 
+from rapidfuzz import fuzz
+
 import config
 import engines
 
@@ -22,10 +24,12 @@ def process_dataset(*ocr_types: type[engines.OCREngine]):
         ocr_name = ocr_type.__name__.lower()
 
         for image_path in image_paths:
+            ocr_output = [sd for sd in ocr_instance.run(str(image_path)) if sd.text]
             output[image_path.name][ocr_name] = {
                 "accuracy": None,
                 "runtime": None,
-                "bboxes": [sd for sd in ocr_instance.run(str(image_path)) if sd.text],
+                "text": " ".join(sd.text for sd in ocr_output),
+                "bboxes": ocr_output,
             }
 
     return output
@@ -33,6 +37,15 @@ def process_dataset(*ocr_types: type[engines.OCREngine]):
 
 def main():
     output = process_dataset(engines.PyTesseract, engines.EasyOCR, engines.DocTR)
+
+    with config.INPUT_FILE.open("r", encoding="utf-8") as input_file:
+        ground_truth = json.load(input_file)
+
+    for image_name in output.keys() & ground_truth.keys():
+        for ocr_augmented_output in output[image_name].values():
+            ocr_augmented_output["accuracy"] = fuzz.token_sort_ratio(
+                ocr_augmented_output["text"], ground_truth[image_name]
+            )
 
     config.OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with config.OUTPUT_FILE.open("w", encoding="utf-8") as output_file:
