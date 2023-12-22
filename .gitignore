@@ -1,6 +1,6 @@
 __pycache__
-.vscode
-output
-
 .python-version
+.vscode
+
+workdir
 .env
